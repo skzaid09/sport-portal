@@ -5,13 +5,18 @@ import qrcode
 from io import BytesIO
 import base64
 import socket
+
+# --- NEW: Detect if running on Render ---
+ON_RENDER = os.environ.get('RENDER') == 'true'
+
+app = Flask(__name__)
+app.secret_key = "sports-portal-secret"
+
+# Import routes
 from routes.auth import auth_bp
 from routes.admin import admin_bp
 from routes.coord import coord_bp
 from routes.player import player_bp
-
-app = Flask(__name__)
-app.secret_key = "sports-portal-secret"
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -20,9 +25,19 @@ app.register_blueprint(player_bp, url_prefix='/player')
 
 @app.route('/')
 def home():
-    # Get the correct base URL — works on local AND Render
-    # request.host_url includes scheme (http/https) and host (localhost or onrender.com)
-    base_url = request.host_url.rstrip('/')  # e.g., "http://localhost:5000" or "https://sport-portal.onrender.com"
+    # Determine base URL based on environment
+    if ON_RENDER:
+        # On Render, use the public URL
+        base_url = "https://sport-portal.onrender.com"
+    else:
+        # Locally, use local IP or localhost
+        hostname = os.uname().nodename if hasattr(os, 'uname') else 'localhost'
+        try:
+            local_ip = socket.gethostbyname(hostname)
+        except:
+            local_ip = 'localhost'
+        base_url = f"http://{local_ip}:5000"
+
     portal_url = f"{base_url}/roles"
 
     qr_path = os.path.join(app.static_folder, 'qr_codes', 'portal_qr.png')
@@ -45,5 +60,5 @@ def role_selection():
     return render_template('role_selection.html')
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Render sets PORT
+    port = int(os.environ.get('PORT', 5000))
     app.run(debug=False, host='0.0.0.0', port=port)
