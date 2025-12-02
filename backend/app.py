@@ -20,10 +20,9 @@ app.register_blueprint(player_bp, url_prefix='/player')
 
 @app.route('/')
 def home():
-    # Get local IP
-    hostname = socket.gethostname()
-    local_ip = socket.gethostbyname(hostname)
-    portal_url = f"http://{local_ip}:5000/roles"
+    # On Render, request.url_root = "https://sport-portal.onrender.com/"
+    # On local, request.url_root = "http://192.168.x.x:5000/"
+    portal_url = f"{request.url_root}roles"
 
     qr_path = os.path.join(app.static_folder, 'qr_codes', 'portal_qr.png')
     os.makedirs(os.path.dirname(qr_path), exist_ok=True)
