@@ -18,11 +18,13 @@ app.register_blueprint(admin_bp, url_prefix='/admin')
 app.register_blueprint(coord_bp, url_prefix='/coord')
 app.register_blueprint(player_bp, url_prefix='/player')
 
+# backend/app.py — Updated home() function
+
 @app.route('/')
 def home():
-    # On Render, request.url_root = "https://sport-portal.onrender.com/"
-    # On local, request.url_root = "http://192.168.x.x:5000/"
-    portal_url = f"{request.url_root}roles"
+    # Get the correct base URL — works on local AND Render
+    base_url = request.url_root.rstrip('/')  # e.g., "http://localhost:5000" or "https://sport-portal.onrender.com"
+    portal_url = f"{base_url}/roles"
 
     qr_path = os.path.join(app.static_folder, 'qr_codes', 'portal_qr.png')
     os.makedirs(os.path.dirname(qr_path), exist_ok=True)
