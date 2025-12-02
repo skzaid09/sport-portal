@@ -1,0 +1,81 @@
+<!-- backend/templates/player/register_single.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Single Player Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <h2 class="text-center mb-4">🧍 Single Player Registration</h2>
+        <form id="singleForm">
+          <div class="mb-3">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="name" placeholder="e.g., Ali Khan" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Department</label>
+            <input type="text" class="form-control" id="department" placeholder="e.g., Computer Science" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Roll Number</label>
+            <input type="text" class="form-control" id="roll_no" placeholder="e.g., 22BCS123" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Select Sport</label>
+            <select class="form-select" id="sport" required>
+              <option value="">-- Choose Individual Sport --</option>
+              <option value="100m Running">100m Running</option>
+              <option value="200m Running">200m Running</option>
+              <option value="Discus Throw">Discus Throw</option>
+              <option value="Shot Put">Shot Put</option>
+              <option value="Long Jump">Long Jump</option>
+              <option value="High Jump">High Jump</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-success w-100">✅ Register Now</button>
+        </form>
+        <div class="text-center mt-3">
+          <a href="/player/register" class="text-decoration-none">&larr; Back to Options</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('singleForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        department: document.getElementById('department').value.trim(),
+        roll_no: document.getElementById('roll_no').value.trim(),
+        sport: document.getElementById('sport').value
+      };
+
+      if (!data.name || !data.department || !data.roll_no || !data.sport) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      const res = await fetch('/player/api/register-single', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        alert('✅ Registration successful! You can view results and leaderboard after the event.');
+        window.location.href = '/roles';
+      } else {
+        alert('❌ Registration failed. Please try again.');
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

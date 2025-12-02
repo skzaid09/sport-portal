@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="#">🏆 Sports Portal</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Results</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Leaderboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h2>Welcome, Player!</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Browse Sports</h5>
+            <p class="card-text">View all available sports and events.</p>
+            <a href="#" class="btn btn-light">Explore</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-info mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Register Event</h5>
+            <p class="card-text">Sign up for upcoming matches.</p>
+            <a href="#" class="btn btn-light">Register</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-warning mb-3">
+          <div class="card-body">
+            <h5 class="card-title">View Results</h5>
+            <p class="card-text">Check your team’s performance.</p>
+            <a href="#" class="btn btn-light">See Results</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <h4>🏆 Leaderboard</h4>
+      <table class="table table-striped">
+        <thead>
+          <tr><th>Rank</th><th>Team</th><th>Points</th></tr>
+        </thead>
+        <tbody id="leaderboard">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Simulate loading leaderboard
+    document.addEventListener('DOMContentLoaded', () => {
+      const leaderboardData = [
+        { rank: 1, team: "Team Alpha", points: 120 },
+        { rank: 2, team: "Team Beta", points: 95 },
+        { rank: 3, team: "Team Gamma", points: 80 }
+      ];
+
+      const tbody = document.getElementById('leaderboard');
+      leaderboardData.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${item.rank}</td><td>${item.team}</td><td>${item.points}</td>`;
+        tbody.appendChild(row);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+Flask==3.0.3
+pymongo==4.7.0
+python-dotenv==1.0.1
+qrcode[pil]==7.4.2
+bcrypt==4.1.3

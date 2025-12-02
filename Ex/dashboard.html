@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand">📊 Sports Portal</a>
+      <span id="user-info" class="text-white"></span>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div class="row" id="dashboard-cards">
+      <!-- Cards will be added dynamically -->
+    </div>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      window.location.href = "index.html";
+    }
+
+    document.getElementById("user-info").textContent = `Hello, ${user.name} (${user.role})`;
+
+    const dashboard = document.getElementById("dashboard-cards");
+
+    // Dashboard Cards based on Role
+    const cards = [
+      { title: "Live Scores", link: "scoreboard.html", color: "info" },
+      { title: "Match Schedule", link: "schedule.html", color: "success" },
+      { title: "Leaderboard", link: "leaderboard.html", color: "warning" },
+    ];
+
+    // Admin & Coordinator get extra options
+    if (user.role === "Admin" || user.role === "Coordinator") {
+      cards.push(
+        { title: "Manage Events", link: "#", color: "danger" },
+        { title: "Enter Scores", link: "enter-scores.html", color: "primary" }
+      );
+    }
+
+    cards.forEach(card => {
+      dashboard.innerHTML += `
+        <div class="col-md-4 mb-3">
+          <a href="${card.link}" class="text-decoration-none">
+            <div class="card bg-${card.color} text-white h-100">
+              <div class="card-body text-center">
+                <h5>${card.title}</h5>
+              </div>
+            </div>
+          </a>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+    <div class="container">
+      <a class="navbar-brand" href="#">Admin Panel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h2>✅ Admin Dashboard</h2>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card bg-primary text-white">
+          <div class="card-body">
+            <h5 class="card-title">Create Event</h5>
+            <p class="card-text">Add new sports events to the system.</p>
+            <button class="btn btn-light">Create</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-info text-white">
+          <div class="card-body">
+            <h5 class="card-title">Manage Users</h5>
+            <p class="card-text">View, edit, or delete users.</p>
+            <button class="btn btn-light">Manage</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-warning text-dark">
+          <div class="card-body">
+            <h5 class="card-title">Send Notifications</h5>
+            <p class="card-text">Broadcast messages to all users.</p>
+            <button class="btn btn-dark">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <h4>👥 User Management (Demo)</h4>
+      <table class="table table-striped">
+        <thead><tr><th>Username</th><th>Role</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+            <td>
+              {% if user.username != 'admin1' %}
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteUser('{{ user.username }}')">Delete</button>
+              {% else %}
+                <span class="badge bg-secondary">Protected</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ✅ Load main.js + Bootstrap JS at bottom -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Optional: Delete user function (if you want to implement later)
+    function deleteUser(username) {
+      if (confirm(`Are you sure you want to delete ${username}?`)) {
+        fetch('/admin/api/delete-user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert('User deleted!');
+            location.reload();
+          } else {
+            alert(data.message || 'Failed to delete user');
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

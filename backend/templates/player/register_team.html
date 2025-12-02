@@ -1,0 +1,130 @@
+<!-- backend/templates/player/register_team.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-light">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <h2 class="text-center mb-4">🤝 Team Registration</h2>
+        
+        <form id="teamForm">
+          <div class="mb-3">
+            <label class="form-label">Team Name</label>
+            <input type="text" class="form-control" id="team_name" placeholder="e.g., Thunder Strikers" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Department</label>
+            <input type="text" class="form-control" id="department" placeholder="e.g., Mechanical Engineering" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Select Sport</label>
+            <select class="form-select" id="sport" required>
+              <option value="">-- Choose Team Sport --</option>
+              <option value="Cricket">Cricket</option>
+              <option value="Football">Football</option>
+              <option value="Volleyball">Volleyball</option>
+              <option value="Basketball">Basketball</option>
+              <option value="Hockey">Hockey</option>
+            </select>
+          </div>
+
+          <h5 class="mt-4 mb-3">Team Members</h5>
+          <div id="players-container">
+            <div class="player-entry row mb-2">
+              <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Player Name" required>
+              </div>
+              <div class="col-md-5">
+                <input type="text" class="form-control" placeholder="Roll No" required>
+              </div>
+              <div class="col-md-1">
+                <button type="button" class="btn btn-danger btn-sm" onclick="removePlayer(this)">-</button>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline-primary mb-3" onclick="addPlayer()">+ Add Player</button>
+
+          <button type="submit" class="btn btn-success w-100">✅ Register Team</button>
+        </form>
+        <div class="text-center mt-3">
+          <a href="/player/register" class="text-decoration-none">&larr; Back to Options</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function addPlayer() {
+      const container = document.getElementById('players-container');
+      const div = document.createElement('div');
+      div.className = 'player-entry row mb-2';
+      div.innerHTML = `
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="Player Name" required>
+        </div>
+        <div class="col-md-5">
+          <input type="text" class="form-control" placeholder="Roll No" required>
+        </div>
+        <div class="col-md-1">
+          <button type="button" class="btn btn-danger btn-sm" onclick="removePlayer(this)">-</button>
+        </div>
+      `;
+      container.appendChild(div);
+    }
+
+    function removePlayer(btn) {
+      const entry = btn.closest('.player-entry');
+      if (document.querySelectorAll('.player-entry').length > 1) {
+        entry.remove();
+      } else {
+        alert('At least one player is required');
+      }
+    }
+
+    document.getElementById('teamForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const team_name = document.getElementById('team_name').value.trim();
+      const department = document.getElementById('department').value.trim();
+      const sport = document.getElementById('sport').value;
+      
+      const players = [];
+      document.querySelectorAll('.player-entry').forEach(entry => {
+        const name = entry.querySelector('input:nth-child(1)').value.trim();
+        const roll = entry.querySelector('input:nth-child(2)').value.trim();
+        if (name && roll) {
+          players.push({ name, roll_no: roll });
+        }
+      });
+
+      if (!team_name || !department || !sport || players.length === 0) {
+        alert('Please fill all fields and add at least one player');
+        return;
+      }
+
+      const data = { team_name, department, sport, players };
+
+      const res = await fetch('/player/api/register-team', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      if (res.ok) {
+        alert('✅ Team registered successfully!');
+        window.location.href = '/roles';
+      } else {
+        alert('❌ Registration failed. Please try again.');
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

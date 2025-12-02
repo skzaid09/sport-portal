@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand">🔐 Admin Panel</a>
+      <a href="dashboard.html" class="text-white">← Back to Dashboard</a>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <h2 class="mb-4">🎯 Create New Event</h2>
+    <form id="eventForm">
+      <div class="mb-3">
+        <label class="form-label">Event Name</label>
+        <input type="text" class="form-control" id="eventName" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Sport Type</label>
+        <select class="form-select" id="sportType" required>
+          <option value="Cricket">Cricket</option>
+          <option value="Football">Football</option>
+          <option value="Volleyball">Volleyball</option>
+          <option value="Chess">Chess</option>
+          <option value="Carrom">Carrom</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Start Date</label>
+        <input type="date" class="form-control" id="startDate" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">End Date</label>
+        <input type="date" class="form-control" id="endDate" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Max Teams</label>
+        <input type="number" class="form-control" id="maxTeams" min="2" max="16" required />
+      </div>
+      <button type="submit" class="btn btn-success">Create Event</button>
+    </form>
+
+    <hr class="my-5" />
+
+    <h2>👥 Register Team</h2>
+    <form id="teamForm">
+      <div class="mb-3">
+        <label class="form-label">Team Name</label>
+        <input type="text" class="form-control" id="teamName" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Event</label>
+        <select class="form-select" id="eventSelect"></select>
+      </div>
+      <button type="submit" class="btn btn-primary">Register Team</button>
+    </form>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

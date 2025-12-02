@@ -1,0 +1,172 @@
+ 
+/* style.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #333;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 40px;
+}
+
+/* Header & Navbar */
+.navbar {
+  background: #007BFF;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.navbar-brand {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#user-info {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Cards & Buttons */
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+  padding: 2rem;
+  text-align: center;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #007BFF;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  text-align: center;
+}
+
+.btn:hover {
+  background: #0056b3;
+}
+
+/* Video & QR Scanner */
+#video {
+  border: 3px solid #007BFF;
+  border-radius: 12px;
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+#result {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #d9534f;
+  margin-top: 15px;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.bg-primary { background: #007BFF; }
+.bg-success { background: #28a745; }
+.bg-info { background: #17a2b8; }
+.bg-warning { background: #ffc107; color: #000; }
+.bg-danger { background: #dc3545; }
+
+/* Scoreboard Specific */
+.scoreboard {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.scoreboard h3 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.scoreboard h4 {
+  color: #28a745;
+}
+
+.scoreboard p {
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+
+  .dashboard-card {
+    height: 120px;
+    font-size: 1rem;
+  }
+
+  #video {
+    max-width: 280px;
+  }
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}

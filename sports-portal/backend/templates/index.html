@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sports Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container-fluid vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="text-center p-4 rounded shadow" style="max-width: 600px; background: white;">
+      <h1 class="mb-3">🏆 Sports Management Portal</h1>
+      <p>Scan the QR code below to access the portal on your phone.</p>
+      
+      <div class="my-4">
+        <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" class="img-fluid" style="max-width: 250px;">
+      </div>
+
+      <div class="d-grid gap-2">
+        <a href="/coord/login" class="btn btn-warning btn-lg">📋 Coordinator</a>
+        <a href="/player/login" class="btn btn-success btn-lg">🏅 Player</a>
+        <a href="/admin/login" class="btn btn-danger btn-lg">🔐 Admin</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
