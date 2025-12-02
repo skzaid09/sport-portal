@@ -18,12 +18,11 @@ app.register_blueprint(admin_bp, url_prefix='/admin')
 app.register_blueprint(coord_bp, url_prefix='/coord')
 app.register_blueprint(player_bp, url_prefix='/player')
 
-# backend/app.py — Updated home() function
-
 @app.route('/')
 def home():
     # Get the correct base URL — works on local AND Render
-    base_url = request.url_root.rstrip('/')  # e.g., "http://localhost:5000" or "https://sport-portal.onrender.com"
+    # request.host_url includes scheme (http/https) and host (localhost or onrender.com)
+    base_url = request.host_url.rstrip('/')  # e.g., "http://localhost:5000" or "https://sport-portal.onrender.com"
     portal_url = f"{base_url}/roles"
 
     qr_path = os.path.join(app.static_folder, 'qr_codes', 'portal_qr.png')
@@ -46,5 +45,5 @@ def role_selection():
     return render_template('role_selection.html')
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # ← Render sets PORT
+    port = int(os.environ.get('PORT', 5000))  # Render sets PORT
     app.run(debug=False, host='0.0.0.0', port=port)
