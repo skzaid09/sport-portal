@@ -3,11 +3,9 @@ services:
   - type: web
     name: sports-portal
     env: python
-    region: oregon          # or choose closest to you
+    region: oregon
     buildCommand: "pip install -r backend/requirements.txt"
     startCommand: "python backend/app.py"
     envVars:
       - key: MONGO_URI
-        sync: false         # You'll paste it manually in Render dashboard
-      - key: PORT
-        value: 10000        # Render uses PORT env var (not hardcoded 5000)
+        sync: false

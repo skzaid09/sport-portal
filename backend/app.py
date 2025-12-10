@@ -6,9 +6,6 @@ from io import BytesIO
 import base64
 import socket
 
-# --- NEW: Detect if running on Render ---
-ON_RENDER = os.environ.get('RENDER') == 'true'
-
 app = Flask(__name__)
 app.secret_key = "sports-portal-secret"
 
@@ -25,19 +22,8 @@ app.register_blueprint(player_bp, url_prefix='/player')
 
 @app.route('/')
 def home():
-    # Determine base URL based on environment
-    if ON_RENDER:
-        # On Render, use the public URL
-        base_url = "https://sport-portal.onrender.com"
-    else:
-        # Locally, use local IP or localhost
-        hostname = os.uname().nodename if hasattr(os, 'uname') else 'localhost'
-        try:
-            local_ip = socket.gethostbyname(hostname)
-        except:
-            local_ip = 'localhost'
-        base_url = f"http://{local_ip}:5000"
-
+    # Automatically use correct base URL (works on Render + local)
+    base_url = request.url_root.rstrip('/')  # e.g., "https://sport-portal.onrender.com"
     portal_url = f"{base_url}/roles"
 
     qr_path = os.path.join(app.static_folder, 'qr_codes', 'portal_qr.png')
