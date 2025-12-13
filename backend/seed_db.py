@@ -1,23 +1,26 @@
-from config import users, events, matches
-from models.user import hash_password
+# backend/seed_db.py
+from config import users, events
+import bcrypt
 
-# Clear collections
-users.delete_many({})
-events.delete_many({})
-matches.delete_many({})
+def hash_password(password):
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
-# Insert events
-events.insert_one({
-    "name": "Annual Football Cup",
-    "date": "2025-12-15",
-    "description": "Inter-college football championship"
-})
+def seed_database():
+    # Only seed if users collection is empty
+    if users.count_documents({}) == 0:
+        print("🌱 Seeding database...")
+        
+        events.insert_one({
+            "name": "Annual Football Cup",
+            "date": "2025-12-15",
+            "description": "Inter-college football championship"
+        })
 
-# Insert users with hashed passwords
-users.insert_many([
-    {"username": "admin1", "password": hash_password("admin123"), "role": "admin"},
-    {"username": "coord1", "password": hash_password("coord123"), "role": "coord"},
-    {"username": "player1", "password": hash_password("player123"), "role": "player"}
-])
-
-print("✅ Database seeded with test users & event!")
+        users.insert_many([
+            {"username": "admin1", "password": hash_password("admin123"), "role": "admin"},
+            {"username": "coord1", "password": hash_password("coord123"), "role": "coord"},
+            {"username": "player1", "password": hash_password("player123"), "role": "player"}
+        ])
+        print("✅ Database seeded successfully!")
+    else:
+        print("ℹ️ Database already seeded — skipping.")

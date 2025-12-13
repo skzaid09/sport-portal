@@ -45,6 +45,14 @@ def home():
 def role_selection():
     return render_template('role_selection.html')
 
+# Auto-seed database on startup (free workaround for Render)
+with app.app_context():
+    try:
+        from seed_db import seed_database
+        seed_database()
+    except Exception as e:
+        print(f"⚠️ Auto-seed failed: {e}")
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=False, host='0.0.0.0', port=port)

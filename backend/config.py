@@ -2,8 +2,8 @@
 import os
 from pymongo import MongoClient
 
-# Use environment variable in Render, fallback to local for testing
-MONGO_URI = os.environ.get('MONGO_URI') or "mongodb://localhost:27017/sports_portal"
+# MUST use MONGO_URI from environment — no fallback to localhost
+MONGO_URI = os.environ['MONGO_URI']  # ← No .get() — forces error if missing
 
 client = MongoClient(MONGO_URI)
 db = client.sports_portal  # Explicitly specify database name
